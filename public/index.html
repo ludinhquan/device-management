@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>device-management</title>
+  <title>Login With FB</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,79 +10,52 @@
   <link rel="shortcut icon" type="image/x-icon" href="https://loopback.io/favicon.ico">
 
   <style>
-    h3 {
-      margin-left: 25px;
-      text-align: center;
+    .btnGroup {
+      display: flex;
     }
 
-    a, a:visited {
-      color: #3f5dff;
+    #btnFbLogin {
+      cursor: pointer;
+      padding: 5px 20px;
+      background-color: #eeeeee;
+      display: inline;
+      margin-right: 20px;
     }
 
-    h3 a {
-      margin-left: 10px;
-    }
-
-    a:hover, a:focus, a:active {
-      color: #001956;
-    }
-
-    .power {
-      position: absolute;
-      bottom: 25px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .info {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%)
-    }
-
-    .info h1 {
-      text-align: center;
-      margin-bottom: 0;
-    }
-
-    .info p {
-      text-align: center;
-      margin-bottom: 3em;
-      margin-top: 1em;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      body {
-        background-color: rgb(29, 30, 32);
-        color: white;
-      }
-
-      a, a:visited {
-        color: #4990e2;
-      }
-
-      a:hover, a:focus, a:active {
-        color: #2b78ff;
-      }
+    #btnFbLogout {
+      cursor: pointer;
+      padding: 5px 20px;
+      background-color: #eeeeee;
+      display: inline;
     }
   </style>
 </head>
 
 <body>
-  <div class="info">
-    <h1>device-management</h1>
-    <p>Version 1.0.0</p>
-
-    <h3>OpenAPI spec: <a href="/openapi.json">/openapi.json</a></h3>
-    <h3>API Explorer: <a href="/explorer">/explorer</a></h3>
+  <div class="btnGroup">
+    <div id="btnFbLogin">Login with Facebook</div>
+    <div id="btnFbLogout">Logout</div>
   </div>
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '819689735433453',
+        cookie: true,
+        xfbml: true,
+        version: 'v8.0'
+      });
+      FB.AppEvents.logPageView();
+    };
 
-  <footer class="power">
-    <a href="https://loopback.io" target="_blank">
-      <img src="https://loopback.io/images/branding/powered-by-loopback/blue/powered-by-loopback-sm.png" />
-    </a>
-  </footer>
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+  <script src="script.js"></script>
 </body>
 
 </html>

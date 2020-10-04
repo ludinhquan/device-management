@@ -1,16 +1,17 @@
-import {BootMixin} from '@loopback/boot';
-import {ApplicationConfig} from '@loopback/core';
-import {
-  RestExplorerBindings,
-  RestExplorerComponent,
-} from '@loopback/rest-explorer';
-import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
-import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
-import {MySequence} from './sequence';
+import { BootMixin } from '@loopback/boot';
+import { ApplicationConfig } from '@loopback/core';
+import { RestApplication } from '@loopback/rest';
+import { RepositoryMixin } from '@loopback/repository';
+import { ServiceMixin } from '@loopback/service-proxy';
+import { RestExplorerComponent } from '@loopback/rest-explorer';
+import { AuthenticationComponent } from '@loopback/authentication';
+import { JWTAuthenticationComponent, UserServiceBindings } from '@loopback/authentication-jwt';
 
-export {ApplicationConfig};
+import { MySequence } from './sequence';
+import { MongodbDataSource } from './datasources'
+
+export { ApplicationConfig };
 
 export class DeviceManagementApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
@@ -24,11 +25,12 @@ export class DeviceManagementApplication extends BootMixin(
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
 
-    // Customize @loopback/rest-explorer configuration here
-    // this.configure(RestExplorerBindings.COMPONENT).to({
-    //   path: '/explorer',
-    // });
+    this.component(AuthenticationComponent);
+    this.component(JWTAuthenticationComponent);
+
     this.component(RestExplorerComponent);
+
+    this.dataSource(MongodbDataSource, UserServiceBindings.DATASOURCE_NAME)
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
