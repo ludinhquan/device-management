@@ -24,7 +24,7 @@ export class DeviceManagementApplication extends BootMixin(
 
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
-
+    
     this.component(AuthenticationComponent);
     this.component(JWTAuthenticationComponent);
 
