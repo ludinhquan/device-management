@@ -1,9 +1,8 @@
 import 'module-alias/register';
 
-import fs from 'fs'
-import {ApplicationConfig, DeviceManagementApplication} from './application';
-
+import { ApplicationConfig, DeviceManagementApplication } from './application';
 export * from './application';
+import { certificate, privateKey } from '@/config/ssl-config'
 
 export async function main(options: ApplicationConfig = {}) {
   const app = new DeviceManagementApplication(options);
@@ -26,8 +25,8 @@ if (require.main === module) {
         setServersFromRequest: true,
       },
       protocol: 'https',
-      key: fs.readFileSync('/home/quan/key.pem').toString(),
-      cert: fs.readFileSync('/home/quan/cert.pem').toString(),
+      key: privateKey,
+      cert: certificate,
     },
   };
   main(config).catch(err => {
