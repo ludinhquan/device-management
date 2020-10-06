@@ -4,12 +4,9 @@ import { inject, lifeCycleObserver, LifeCycleObserver } from '@loopback/core';
 const config = {
     name: 'mongodb',
     connector: 'mongodb',
-    host: 'localhost',
-    port: 27017,
-    user: '',
-    password: '',
-    database: 'device-management',
-    useNewUrlParser: true
+    url: 'mongodb+srv://test:Abcd1234@cluster0.od7me.mongodb.net/device-management?retryWrites=true&w=majority',
+    protocol: 'mongodb+srv',
+    useNewUrlParser: true,
 };
 
 @lifeCycleObserver('datasource')
