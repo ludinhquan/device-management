@@ -58,6 +58,7 @@
     "@loopback/rest-explorer": "^3.0.1",
     "@loopback/security": "^0.3.1",
     "@loopback/service-proxy": "^3.0.1",
+    "@loopback/build": "^6.2.4",
     "loopback-connector-mongodb": "^5.4.0",
     "loopback-connector-rest": "^3.7.0",
     "module-alias": "^2.2.2",
