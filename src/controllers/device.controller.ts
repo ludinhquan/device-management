@@ -2,7 +2,7 @@ import { repository } from '@loopback/repository';
 import { authenticate } from '@loopback/authentication';
 import { get, param, post, del, put, requestBody, getModelSchemaRef, patch } from '@loopback/rest';
 
-import { Device } from '@/models';
+import { Device, IAttributes } from '@/models';
 import { DeviceRepository } from '@/repositories';
 
 export class DeviceController {
@@ -11,15 +11,13 @@ export class DeviceController {
   ) { }
 
   @authenticate('jwt')
-  @get('/devices', {
-    responses: {
-      '200': {
-        description: 'Get Device List',
-      },
-    },
-  })
-  async getDevices(): Promise<Device[]> {
-    return this.deviceRepo.find();
+  @get('/devices')
+  async getDevices(
+    @param.query.string('name') name?: string,
+    @param.query.string('desc') desc?: string,
+    @param.query.object('attributes', { example: { "firmware": 5.6, "hardware": "data logger" } }) attributes?: IAttributes,
+  ): Promise<Device[]> {
+    return this.deviceRepo.getDevicesByParams({ name, desc, attributes });
   }
 
   @authenticate('jwt')
@@ -85,13 +83,7 @@ export class DeviceController {
   }
 
   @authenticate('jwt')
-  @del('/devices/{id}', {
-    responses: {
-      '200': {
-        description: 'Device model instance',
-      },
-    },
-  })
+  @del('/devices/{id}')
   async deleteDevice(
     @param.path.string('id') id: string,
   ): Promise<void> {
@@ -111,7 +103,11 @@ export class DeviceController {
   })
   async updateAttributesById(
     @param.path.string('id') id: string,
-    @requestBody() attributes: object,
+    @requestBody({
+      description: 'Device attributes', content: {
+        'application/json': { example: { hardware: '...', firmware: '...' } },
+      }
+    }) attributes: object,
   ): Promise<Device> {
     return this.deviceRepo.updateAttributes(id, attributes);
   }
@@ -126,8 +122,12 @@ export class DeviceController {
   })
   async removeAttributesById(
     @param.path.string('id') id: string,
-    @requestBody() data: { deleteFields: Array<string> },
-  ): Promise<boolean> {
-    return this.deviceRepo.deleteAttributes(id, data.deleteFields);
+    @requestBody({
+      description: 'Array attributes field to delete', content: {
+        'application/json': { example: ["hardware", "firmware"] },
+      }
+    }) fields: Array<string>,
+  ): Promise<Device> {
+    return this.deviceRepo.deleteAttributes(id, fields);
   }
 }

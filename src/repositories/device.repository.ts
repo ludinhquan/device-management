@@ -1,6 +1,6 @@
 import { inject } from '@loopback/core';
 import { HttpErrors } from '@loopback/rest';
-import { DefaultCrudRepository, juggler } from '@loopback/repository';
+import { DefaultCrudRepository, juggler, WhereBuilder, FilterBuilder } from '@loopback/repository';
 
 import { Device, DeviceRelations, IAttributes } from '@/models';
 
@@ -13,6 +13,21 @@ export class DeviceRepository extends DefaultCrudRepository<
     super(Device, dataSource);
   }
 
+  async getDevicesByParams(params: { name?: string, desc?: string, attributes?: IAttributes }): Promise<Array<Device>> {
+    const { name, desc, attributes = {} } = params;
+    const where = new WhereBuilder()
+    if (name) where.like('name', name);
+    if (desc) where.like('desc', desc)
+    if (Object.keys(attributes))
+      Object.keys(attributes).forEach(key => {
+        where.eq(`attributes.${key}`, attributes[key])
+      })
+
+    const filter = new FilterBuilder().where(where.build()).build();
+    const results = await this.find(filter)
+    return results;
+  }
+
   async updateAttributes(id: string, newAttributes: object): Promise<Device> {
     const device = await this.findById(id);
     if (!device) {
@@ -23,7 +38,7 @@ export class DeviceRepository extends DefaultCrudRepository<
     return Promise.resolve({ ...device, attributes } as Device)
   }
 
-  async deleteAttributes(id: string, deleteFields: Array<string>): Promise<boolean> {
+  async deleteAttributes(id: string, deleteFields: Array<string>): Promise<Device> {
     const device = await this.findById(id);
     if (!device) {
       throw new HttpErrors.NotFound();
@@ -36,7 +51,7 @@ export class DeviceRepository extends DefaultCrudRepository<
       });
 
     await this.updateById(id, { attributes });
-    return true;
-  }
+    return { ...device, attributes } as Device;
+  };
 }
 
