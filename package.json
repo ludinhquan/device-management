@@ -32,7 +32,7 @@
     "prestart": "npm run build",
     "start": "node -r source-map-support/register .",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
-    "dev": "nodemon dist/index.js",
+    "dev": "nodemon",
     "heroku-postbuild": "npm run build"
   },
   "repository": {

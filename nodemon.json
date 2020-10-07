@@ -3,5 +3,5 @@
     "watch": [ "src/" ],
     "ignore": [ "dist/*" ],
     "ext": "ts",
-    "exec": "npm start"
+    "exec": "npm run build && node dist/index.js"
 }
