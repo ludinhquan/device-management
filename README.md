@@ -24,9 +24,21 @@ npm ci
 npm start
 ```
 
+or:
+
+```sh
+npm run dev // for development
+```
+
 You can also run `node .` to skip the build step.
 
 Open http://127.0.0.1:3000 in your browser.
+
+## Swagger documents
+
+```sh
+https://127.0.0.1:3000/explorer
+```
 
 ## Rebuild the project
 
