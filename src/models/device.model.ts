@@ -9,7 +9,6 @@ export class Device extends Entity {
     @property({
         type: 'string',
         id: true,
-        mongodb: {dataType: 'ObjectId'}
     })
     id?: string;
 
@@ -34,6 +33,34 @@ export class Device extends Entity {
         super(data);
     }
 }
+
+@model()
+export class CreateDeviceDTO {
+    @property({
+        type: 'string',
+        required: true,
+    })
+    name: string
+
+    @property()
+    desc?: string
+
+    @property()
+    attributes?: IAttributes
+}
+
+@model()
+export class UpdateDeviceDTO {
+    @property()
+    name?: string
+
+    @property()
+    desc?: string
+
+    @property()
+    attributes?: IAttributes
+}
+
 
 export interface DeviceRelations {
     // describe navigational properties here

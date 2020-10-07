@@ -1,6 +1,7 @@
 module.exports = {
   extends: '@loopback/eslint-config',
   rules: {
-    '@typescript-eslint/no-explicit-any': 0
+    'no-extra-boolean-cast': 0,
+    '@typescript-eslint/no-explicit-any': 0,
   }
 };
