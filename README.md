@@ -1,6 +1,6 @@
 ## Technical document design
 
-    [TDD](https://www.notion.so/Device-management-TDD-b357c7ab18c94377b1912669b46a5b11)
+[TDD](https://www.notion.so/Device-management-TDD-b357c7ab18c94377b1912669b46a5b11)
 
 ## Install dependencies
 
